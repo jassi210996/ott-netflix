@@ -1,11 +1,28 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Header from "./Header";
+import { validateAuthForm } from "../utils/validate";
+import InputField from "../shared/InputField";
 
 const Login = () => {
   const [isSignInForm, changeFormState] = useState(true);
+  const [invalidData, setInvalidField] = useState(null);
+  const email = useRef(null);
+  const password = useRef(null);
+  const fullName = useRef(null);
 
   const toggleForm = () => {
     changeFormState(!isSignInForm);
+  };
+
+  const formSubmitHandler = (e) => {
+    e.preventDefault();
+    const formValidity = validateAuthForm(
+      !isSignInForm ? "signup" : "signin",
+      email.current.value,
+      password.current.value,
+      fullName?.current?.value
+    );
+    setInvalidField(formValidity);
   };
 
   return (
@@ -17,32 +34,39 @@ const Login = () => {
             {isSignInForm ? "Sign In" : "Sign Up"}
           </h3>
           {!isSignInForm && (
-            <input
+            <InputField
+              elRef={fullName}
               type="text"
               placeholder="Full Name"
-              className="bg-black bg-opacity-50 text-white w-80 h-10 rounded-md p-4 py-6 border-solid border-2 border-gray-500 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 m-2"
+              error={invalidData?.field === "fullName" && invalidData.msg}
             />
           )}
-          <input
+          <InputField
+            elRef={email}
             type="text"
             placeholder="Email Address"
-            className="bg-black bg-opacity-50 text-white w-80 h-10 rounded-md p-4 py-6 border-solid border-2 border-gray-500 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 m-2"
+            error={invalidData?.field === "email" && invalidData.msg}
           />
-          <input
+          <InputField
+            elRef={password}
             type="password"
             placeholder="Password"
-            className="bg-black bg-opacity-50 text-white w-80 h-10 rounded-md focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 p-4 border-solid border-2 border-gray-500 py-6 m-2"
+            error={invalidData?.field === "password" && invalidData.msg}
           />
           <button
             type="submit"
-            className="text-white bg-red-600 w-80 h-10 rounded-md border-none focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 p-2 m-2"
+            className="text-white bg-red-600 w-80 h-10 rounded-md border-none focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 p-2 m-2"
+            onClick={formSubmitHandler}
           >
             {isSignInForm ? "Sign In" : "Sign Up"}
           </button>
           <p className="text-white text-sm m-2">Forgot your password?</p>
           <p className="text-gray-500 text-sm m-2">
             {isSignInForm ? "New to Netflix?" : "Already Registered"}{" "}
-            <span className="font-bold text-white cursor-pointer" onClick={toggleForm}>
+            <span
+              className="font-bold text-white cursor-pointer"
+              onClick={toggleForm}
+            >
               {isSignInForm ? "Sign up now." : "Sign in now."}
             </span>
           </p>
