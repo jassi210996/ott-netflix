@@ -1,11 +1,19 @@
 import { useRef, useState } from "react";
-import Header from "./Header";
-import { validateAuthForm } from "../utils/validate";
+import { useNavigate } from "react-router-dom";
 import InputField from "../shared/InputField";
+import { signinUser, signupUser } from "../shared/firebase-api";
+import { validateAuthForm } from "../utils/validate";
+import Header from "./Header";
+import { updateProfile } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { auth } from "../utils/firebase";
+import { updateUser } from "../utils/userSlice";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [isSignInForm, changeFormState] = useState(true);
   const [invalidData, setInvalidField] = useState(null);
+  const dispatch = useDispatch();
   const email = useRef(null);
   const password = useRef(null);
   const fullName = useRef(null);
@@ -22,7 +30,58 @@ const Login = () => {
       password.current.value,
       fullName?.current?.value
     );
-    setInvalidField(formValidity);
+    if (formValidity) {
+      setInvalidField(formValidity);
+      return;
+    }
+    handleAuth();
+  };
+
+  const handleAuth = () => {
+    if (!isSignInForm) {
+      signupUser(email.current.value, password.current.value)
+        .then((userCredentials) => {
+          setDisplayName(userCredentials.user);
+        })
+        .catch((error) => {
+          handleAuthError(error);
+        });
+      return;
+    }
+    signinUser(email.current.value, password.current.value)
+      .then((userCredentials) => {
+        navigate("/browse");
+      })
+      .catch((error) => {
+        handleAuthError(error);
+      });
+  };
+
+  const setDisplayName = (user) => {
+
+    updateProfile(user, {
+      displayName: fullName.current.value,
+      photoURL:
+        "https://occ-0-3752-3646.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABaSDR-kTPhPYcVVGSsV0jC3D-Q5HZSFE6fjzAM-4cMpltx1Gw9AV7OTnL8sYnC6CBxOBZQEAJLjStt822uD2lctOvNR05qM.png?r=962",
+    })
+      .then(() => {
+
+        const { displayName, photoURL } = auth.currentUser;
+        dispatch(updateUser({ displayName, photoURL }));
+        navigate("/browse");
+      })
+      .catch((error) => {
+        handleAuthError(error);
+      });
+  };
+
+  const handleAuthError = (error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    setInvalidField({
+      field: "email",
+      msg: errorCode + "-" + errorMessage,
+    });
   };
 
   return (
