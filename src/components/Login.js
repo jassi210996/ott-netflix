@@ -8,6 +8,7 @@ import { updateProfile } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { auth } from "../utils/firebase";
 import { updateUser } from "../utils/userSlice";
+import { USER_AVATAR_URL } from "../utils/constants";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -58,17 +59,13 @@ const Login = () => {
   };
 
   const setDisplayName = (user) => {
-
     updateProfile(user, {
       displayName: fullName.current.value,
-      photoURL:
-        "https://occ-0-3752-3646.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABaSDR-kTPhPYcVVGSsV0jC3D-Q5HZSFE6fjzAM-4cMpltx1Gw9AV7OTnL8sYnC6CBxOBZQEAJLjStt822uD2lctOvNR05qM.png?r=962",
+      photoURL: USER_AVATAR_URL,
     })
       .then(() => {
-
         const { displayName, photoURL } = auth.currentUser;
         dispatch(updateUser({ displayName, photoURL }));
-        navigate("/browse");
       })
       .catch((error) => {
         handleAuthError(error);
