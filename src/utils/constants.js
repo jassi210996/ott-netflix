@@ -6,13 +6,18 @@ export const LOGO_URL =
 export const USER_AVATAR_URL =
   "https://occ-0-3752-3646.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABaSDR-kTPhPYcVVGSsV0jC3D-Q5HZSFE6fjzAM-4cMpltx1Gw9AV7OTnL8sYnC6CBxOBZQEAJLjStt822uD2lctOvNR05qM.png?r=962";
 
+export const BG_URL =
+  "https://assets.nflxext.com/ffe/siteui/vlv3/85ff76db-39e5-423a-afbc-97d3e74db71b/null/IN-en-20240909-TRIFECTA-perspective_b22117e0-4610-4d57-a695-20f77d241a4a_large.jpg";
+
 export const API_OPTIONS = {
   method: "GET",
   headers: {
     accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMmUxZGI2NzM1OGIwOWVlODFmNTQ1Zjg3OTU2YWYzYiIsIm5iZiI6MTcyNzcwODkxNi41MTkyODksInN1YiI6IjVjMWU3NjllOTI1MTQxNGMxNmJlOTg5NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.zzVu2JuTy_f8mbJW-7FjHxjdmQ3RGzoWXqSIEsf9XoY",
+    Authorization: "Bearer " + process.env.REACT_APP_TMDB_API_KEY,
   },
 };
 
-export const IMG_BASE_URL_W500 = (img) => `https://image.tmdb.org/t/p/w500/${img}`;
+export const IMG_BASE_URL_W500 = (img) =>
+  `https://image.tmdb.org/t/p/w500/${img}`;
+
+export const OPEN_AI_API_KEY = process.env.REACT_APP_OPEN_AI_API_KEY;
