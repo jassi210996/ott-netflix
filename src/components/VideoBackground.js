@@ -8,10 +8,10 @@ const VideoBackground = ({ id }) => {
     return;
   }
   return (
-    <div className="w-full aspect-video">
+    <div className="w-full aspect-video -mt-7">
       <iframe
         className="w-full aspect-video"
-        src={"https://www.youtube.com/embed/" + trailer + "?autoplay=1&mute=1&loop=0&controls=0"}
+        src={"https://www.youtube.com/embed/" + trailer + "?autoplay=1&mute=1&loop=1&controls=0"}
         title="YouTube video player"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerPolicy="strict-origin-when-cross-origin"

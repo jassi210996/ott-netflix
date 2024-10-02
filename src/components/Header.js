@@ -33,7 +33,7 @@ const Header = () => {
   };
 
   return (
-    <header className="z-10 absolute flex w-full p-4 px-8 bg-gradient-to-b from-black">
+    <header className="z-10 absolute flex w-full p-4 px-8 bg-gradient-to-b from-black top-0">
       <img src={LOGO_URL} alt="logo" className="w-28" />
       {user && (
         <div className="flex ml-auto w-32 items-center">

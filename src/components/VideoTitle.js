@@ -7,7 +7,7 @@ const VideoTitle = ({ title, poster, overview }) => {
     bg-gradient-to-r from-black
     "
     >
-      <div className="w-2/4">
+      <div className="w-2/4 mb-44">
         <h1 className="text-4xl font-bold mb-2">{title}</h1>
         <p className="text-lg font-semibold mb-4">{overview}</p>
         <MovieImage img={poster} cls="h-48" />

@@ -3,11 +3,11 @@ import VideoTitle from "./VideoTitle";
 import VideoBackground from "./VideoBackground";
 
 const MainContainer = () => {
-  const movies = useSelector((state) => state.movies.nowPlaying);
-  if (!movies) {
+  const nowPlaying = useSelector((state) => state.movies.nowPlaying);
+  if (!nowPlaying) {
     return;
   }
-  const mainMovie = movies ? movies[0] : null;
+  const mainMovie = nowPlaying ? nowPlaying[0] : null;
   const { id, title, overview, poster_path } = mainMovie;
   return (
     <div>
